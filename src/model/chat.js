@@ -161,4 +161,22 @@ chat.getChatBetweenTwoUsers = (mainUserID, friendUserID)=>{
     }
 }
 
+
+chat.getFriends = (custUserID)=>{
+    try{
+        return connection.getCollection().then((model)=>{
+            return model.find({userID : custUserID}, {friends : 1, _id : 0}).then((friends)=>{
+                if(friends.length > 0){
+                    return friends[0].friends
+                }else{
+                    let error = new Error("Friends list is empty");
+                    throw error;
+                }
+            })
+        })
+    }catch(error){
+        throw error
+    }
+}
+
 module.exports = chat;

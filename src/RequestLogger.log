@@ -175,3 +175,7 @@ Mon Nov 16 2020 22:49:12 GMT+0530 (India Standard Time) - POST - /friend/message
 Mon Nov 16 2020 22:49:23 GMT+0530 (India Standard Time) - GET - /friend/getChat/sai123/nani123 
 Mon Nov 16 2020 22:49:38 GMT+0530 (India Standard Time) - GET - /friend/getChat/sai123/nani123 
 Mon Nov 16 2020 22:50:12 GMT+0530 (India Standard Time) - GET - /friend/getChat/nani123/sai123 
+Mon Nov 16 2020 23:23:11 GMT+0530 (India Standard Time) - GET - /getAllUsers 
+Mon Nov 16 2020 23:32:56 GMT+0530 (India Standard Time) - GET - /friend/getFriends/nani123 
+Mon Nov 16 2020 23:33:43 GMT+0530 (India Standard Time) - GET - /friend/getFriends/nani123 
+Mon Nov 16 2020 23:34:34 GMT+0530 (India Standard Time) - GET - /friend/getFriends/nani123 

@@ -43,4 +43,15 @@ chatRouter.get('/getChat/:mainUserID/:friendUserID', (req,res)=>{
     })
 })
 
+
+chatRouter.get('/getFriends/:userID', (req,res)=>{
+    let custUserID = req.params.userID;
+    chat.getFriends(custUserID).then((result)=>{
+        if(result){
+            res.send(result)
+        }
+    }).catch((err)=>{
+        res.send(err.message)
+    })
+})
 module.exports = chatRouter;
