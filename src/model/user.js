@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const { response } = require('express');
 const connection = require('../connection/connection');
 
 users = {};
@@ -55,7 +56,7 @@ users.getUser = (custMail, custPassword)=>{
                 return null
             }
         }).catch((error)=>{
-            return error
+            return "User does not exist"
         })
     })
 }
@@ -91,5 +92,50 @@ users.getAllUsers = ()=>{
     })
 }
 
+users.searchUser = (searchedText)=>{
+    let a = searchedText.slice(0,3);
+    let regexPattern = `^${a}`;
+    return connection.getCollection().then((model)=>{
+        return model.find({$or : [{userID : searchedText}, {mail : searchedText}]}, {_id : 0}).then((userDetails)=>{
+            if(userDetails.length > 0){
+                return userDetails;
+            }else{
+                return model.find({userID : {$regex : regexPattern}}, {_id : 0}).then((relatedUsers)=>{
+                    if(relatedUsers.length > 0){
+                        return relatedUsers;
+                    }else{
+                        return null;
+                    }
+                })
+            }
+        })
+    })
+}
+
+users.getFriendRequests = (custMail)=>{
+    return connection.getCollection().then((model)=>{
+        return model.find({mail : custMail}, {_id : 0, friendRequests : 1}).then((response)=>{
+            if(response.length > 0){
+                return response
+            }else{
+                return null
+            }
+        })
+    })
+}
+
+users.deleteFriendRequest = (custUserID, friendID)=>{
+    return connection.getCollection().then((model)=>{
+        return model.updateMany({userID:custUserID}, {$pull:{friendRequests : friendID}}).then((response)=>{
+            console.log(response)
+            if(response.nModified > 0){
+                console.log("second")
+                return true
+            }else{
+                return false
+            }
+        })
+    })
+}
 
 module.exports = users;

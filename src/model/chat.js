@@ -18,6 +18,7 @@ chat.addFriend = (custUserID, friendID)=>{
                                         if(addedFriend.nModified > 0){
                                             return model.updateMany({userID : friendID}, {$push : {friends : custUserID}}).then((addedUserID)=>{
                                                 if(addedUserID.nModified > 0){
+                                                    console.log("second")
                                                     return `${custUserID} and ${friendID} are now friends !!!`
                                                 }else{
                                                     let error = new Error("Failed to add userID in friends document");
@@ -161,7 +162,7 @@ chat.getChatBetweenTwoUsers = (mainUserID, friendUserID)=>{
     }
 }
 
-
+// Function to return all friends for particular userID
 chat.getFriends = (custUserID)=>{
     try{
         return connection.getCollection().then((model)=>{
@@ -169,14 +170,31 @@ chat.getFriends = (custUserID)=>{
                 if(friends.length > 0){
                     return friends[0].friends
                 }else{
-                    let error = new Error("Friends list is empty");
-                    throw error;
+                    return null
                 }
             })
         })
     }catch(error){
         throw error
     }
+}
+
+chat.addFriendRequest = (custUserID, friendID)=>{
+    return connection.getCollection().then((model)=>{
+        return model.find({$and: [{userID: custUserID}, {friendRequests : friendID}]}).then((result)=>{
+            if(result.length > 0){
+                return false;
+            }else{
+                return model.updateMany({userID : custUserID}, {$push : {friendRequests : friendID}}).then((response)=>{
+                    if(response.nModified > 0){
+                        return true
+                    }else{
+                        return false
+                    }
+                })
+            }
+        })
+    })
 }
 
 module.exports = chat;

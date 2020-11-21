@@ -15,7 +15,8 @@ router.get('/getUser/:mail/:password', (req, res)=>{
             res.send("mail or password is incorrect")
         }
     }).catch((err)=>{
-        res.send(err.message)
+        console.log(err.message)
+        res.send("User does not exist")
     })
 })
 
@@ -44,6 +45,7 @@ router.post('/insertUser', (req,res)=>{
             }
         }).catch((err)=>{
             res.send(err.message)
+            console.log(err)
         })
     }catch(error){
         console.log(error);
@@ -60,5 +62,50 @@ router.get('/getAllUsers', (req,res)=>{
         res.send(err.message)
     })
 })
+
+// get method which returns list of users based on searched text
+router.get('/getSearchedUser/:searchedText', (req,res)=>{
+    let searchedUser = req.params.searchedText;
+    users.searchUser(searchedUser).then((userData)=>{
+        if(userData){
+            res.send(userData)
+        }
+        else{
+            let error = new Error("No user found");
+            res.send(error)
+        }
+    }).catch((err)=>{
+        console.log(err.message);
+    })
+})
+
+// get method which returns friendRequest array 
+router.get('/getFriendRequests/:mail', (req,res)=>{
+    let custMail = req.params.mail;
+    users.getFriendRequests(custMail).then((result)=>{
+        if(result){
+            res.send(result[0].friendRequests);
+        }else{
+            res.send(null)
+        }
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
+
+// delete method to delete a friend request
+router.put('/deleteFriendRequest', (req,res)=>{
+    let obj = req.body;
+    let custUserID = obj.userID;
+    let friendID = obj.friendID;
+    console.log("first")
+    users.deleteFriendRequest(custUserID, friendID).then((result)=>{
+        console.log(result)
+        res.send(result)
+    }).catch((err)=>{
+        console.log(err.message)
+    })
+})
+
 
 module.exports = router

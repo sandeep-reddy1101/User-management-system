@@ -1,4 +1,5 @@
 const myChat = require('../model/chat');
+const myUser = require('../model/user')
 
 services = {};
 
@@ -13,6 +14,7 @@ services.arrangeChat = (mainUserID, friendUserID)=>{
         let flen = friendsMessages.length;
         let ylen = yourMessages.length;
         console.log(friendsMessages, yourMessages)
+        console.log(flen, ylen);
         if(flen > 0 && ylen > 0){
             for(let i=0 ; i < flen ; i++){
                 let time1 = friendsMessages[i].time;
@@ -56,18 +58,21 @@ services.arrangeChat = (mainUserID, friendUserID)=>{
                 }
             }
         }else if(ylen == 0 && flen > 0){
+            console.log("in here")
             for(let i = 0; i < flen ; i++){
-                let sample = "You : " + yourMessages[i].message;
+                let sample = friendUserID + " : " + friendsMessages[i].message;
                 finalArray.push(sample);
             }
         }else if(flen == 0 && ylen > 0){
+            console.log("in here 2")
             for(let i = 0; i < ylen ; i++){
-                let sample = friendUserID + " : " + friendsMessages[i].message;
+                let sample = "You : " + yourMessages[i].message;
                 finalArray.push(sample);
             }
         }
         return finalArray;
     })
 };
+
 
 module.exports = services;
