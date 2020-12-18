@@ -47,11 +47,13 @@ const userSchema = mongoose.Schema(schema, {collection : "userDB", timestamps : 
 
 collections = {};
 
+const url = "mongodb+srv://sandy:sandy123@chat-app-database.tqpxc.mongodb.net/userDB?retryWrites=true&w=majority";
 // Function to setup the connection to database and return model
 collections.getCollection = ()=>{
-    return mongoose.connect('mongodb://localhost:27017/userDB', { useNewUrlParser : true}).then((db)=>{
+    return mongoose.connect(url, { useNewUrlParser : true, useUnifiedTopology: true}).then((db)=>{
         return db.model('userDB', userSchema)
     }).catch((error)=>{
+        console.log(error)
         return error.message
     })
 }

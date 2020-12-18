@@ -13,14 +13,11 @@ services.arrangeChat = (mainUserID, friendUserID)=>{
         let ids = [];
         let flen = friendsMessages.length;
         let ylen = yourMessages.length;
-        console.log(friendsMessages, yourMessages)
-        console.log(flen, ylen);
         if(flen > 0 && ylen > 0){
             for(let i=0 ; i < flen ; i++){
                 let time1 = friendsMessages[i].time;
                 for(let j=0 ; j < ylen ; j++){
                     let time2 = yourMessages[j].time;
-                    console.log(friendsMessages[i].message,time1, yourMessages[j].message,time2);
                     if(time1 <= time2){
                         let index = ids.indexOf(friendsMessages[i]._id);
                         if(index == -1){
@@ -28,7 +25,6 @@ services.arrangeChat = (mainUserID, friendUserID)=>{
                             finalArray.push(sampleStr);
                             ids.push(friendsMessages[i]._id);
                         }
-                        console.log(finalArray)
                         break;
                     }else{
                         let index = ids.indexOf(yourMessages[j]._id);
@@ -37,7 +33,6 @@ services.arrangeChat = (mainUserID, friendUserID)=>{
                             finalArray.push(sampleArray);
                             ids.push(yourMessages[j]._id);
                         }
-                        console.log(finalArray)
                     }
                 }
             }
@@ -58,13 +53,11 @@ services.arrangeChat = (mainUserID, friendUserID)=>{
                 }
             }
         }else if(ylen == 0 && flen > 0){
-            console.log("in here")
             for(let i = 0; i < flen ; i++){
                 let sample = friendUserID + " : " + friendsMessages[i].message;
                 finalArray.push(sample);
             }
         }else if(flen == 0 && ylen > 0){
-            console.log("in here 2")
             for(let i = 0; i < ylen ; i++){
                 let sample = "You : " + yourMessages[i].message;
                 finalArray.push(sample);

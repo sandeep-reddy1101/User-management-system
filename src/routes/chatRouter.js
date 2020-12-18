@@ -8,14 +8,12 @@ chatRouter.put('/addfriend/', (req,res)=>{
     let obj = req.body;
     let custUserID = obj.userID;
     let friendID = obj.friendID;
-    console.log("first", obj)
     chat.addFriend(custUserID, friendID).then((result)=>{
         if(result){
             console.log("three")
             res.json(result)
         }
     }).catch((err)=>{
-        console.log("second", err.message)
         res.send(err.message)
     })
 });

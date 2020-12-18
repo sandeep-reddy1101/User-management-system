@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const { response } = require('express');
 const connection = require('../connection/connection');
 
 users = {};
@@ -63,7 +62,6 @@ users.getUser = (custMail, custPassword)=>{
 
 // insert the new user into database
 users.insertNewUser = (userObj)=>{
-    console.log(userObj,userObj.password)
     let hashpass = hashPassword(userObj.password);
     userObj.password = hashpass;
     return connection.getCollection().then((model)=>{
@@ -127,7 +125,6 @@ users.getFriendRequests = (custMail)=>{
 users.deleteFriendRequest = (custUserID, friendID)=>{
     return connection.getCollection().then((model)=>{
         return model.updateMany({userID:custUserID}, {$pull:{friendRequests : friendID}}).then((response)=>{
-            console.log(response)
             if(response.nModified > 0){
                 console.log("second")
                 return true

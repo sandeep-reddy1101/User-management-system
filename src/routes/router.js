@@ -98,9 +98,7 @@ router.put('/deleteFriendRequest', (req,res)=>{
     let obj = req.body;
     let custUserID = obj.userID;
     let friendID = obj.friendID;
-    console.log("first")
     users.deleteFriendRequest(custUserID, friendID).then((result)=>{
-        console.log(result)
         res.send(result)
     }).catch((err)=>{
         console.log(err.message)
